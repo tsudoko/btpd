@@ -85,52 +85,56 @@ cmd_add(int argc, char **argv)
     struct iobuf iob;
 
     for (nfile = 0; nfile < argc; nfile++) {
-       if ((mi = mi_load(argv[nfile], &mi_size)) == NULL) {
-           fprintf(stderr, "error loading '%s' (%s).\n", argv[nfile], strerror(errno));
-           continue;
-       }
-       if (dir == NULL) {
-           dir = dirname(argv[nfile]);
-           if ((dirlen = strlen(dir)) == 0) {
-                fprintf(stderr, "error obtaining dirname for '%s'.\n", argv[nfile]);
+        if ((mi = mi_load(argv[nfile], &mi_size)) == NULL) {
+            fprintf(stderr, "error loading '%s' (%s).\n", argv[nfile],
+                strerror(errno));
+            continue;
+        }
+        if (dir == NULL) {
+            dir = dirname(argv[nfile]);
+            if ((dirlen = strlen(dir)) == 0) {
+                fprintf(stderr, "error obtaining dirname for '%s'.\n",
+                    argv[nfile]);
                 continue;
-           }
-       }
-       iob = iobuf_init(PATH_MAX);
-       iobuf_write(&iob, dir, dirlen);
-       if (topdir && !mi_simple(mi)) {
-           size_t tdlen;
-           const char *td =
-               benc_dget_mem(benc_dget_dct(mi, "info"), "name", &tdlen);
-           iobuf_swrite(&iob, "/");
-           iobuf_write(&iob, td, tdlen);
-       }
-       iobuf_swrite(&iob, "\0");
-       if ((errno = make_abs_path(iob.buf, dpath)) != 0) {
-           fprintf(stderr, "make_abs_path '%s' failed (%s).\n", dpath, strerror(errno));
-           iobuf_free(&iob);
-           continue;
-       }
-       if(NULL == glabel)
-          label = benc_dget_str(mi, "announce", NULL);
-       else
-          label = glabel;
-       code = btpd_add(ipc, mi, mi_size, dpath, name, label);
-       if ((code == IPC_OK) && start) {
-           struct ipc_torrent tspec;
-           tspec.by_hash = 1;
-           mi_info_hash(mi, tspec.u.hash);
-           code = btpd_start(ipc, &tspec);
-       }
-       if (code != IPC_OK) {
-           fprintf(stderr, "command failed for '%s' (%s).\n", argv[nfile], ipc_strerror(code));
-       } else {
-           nloaded++;
-       }
-       iobuf_free(&iob);
+            }
+        }
+        iob = iobuf_init(PATH_MAX);
+        iobuf_write(&iob, dir, dirlen);
+        if (topdir && !mi_simple(mi)) {
+            size_t tdlen;
+            const char *td =
+                benc_dget_mem(benc_dget_dct(mi, "info"), "name", &tdlen);
+            iobuf_swrite(&iob, "/");
+            iobuf_write(&iob, td, tdlen);
+        }
+        iobuf_swrite(&iob, "\0");
+        if ((errno = make_abs_path(iob.buf, dpath)) != 0) {
+            fprintf(stderr, "make_abs_path '%s' failed (%s).\n", dpath,
+                strerror(errno));
+            iobuf_free(&iob);
+            continue;
+        }
+        if(NULL == glabel)
+            label = benc_dget_str(mi, "announce", NULL);
+        else
+            label = glabel;
+        code = btpd_add(ipc, mi, mi_size, dpath, name, label);
+        if ((code == IPC_OK) && start) {
+            struct ipc_torrent tspec;
+            tspec.by_hash = 1;
+            mi_info_hash(mi, tspec.u.hash);
+            code = btpd_start(ipc, &tspec);
+        }
+        if (code != IPC_OK) {
+            fprintf(stderr, "command failed for '%s' (%s).\n", argv[nfile],
+                ipc_strerror(code));
+        } else {
+            nloaded++;
+        }
+        iobuf_free(&iob);
     }
 
     if (nloaded != nfile) {
-       diemsg("error loaded %d of %d files.\n", nloaded, nfile);
+        diemsg("error loaded %d of %d files.\n", nloaded, nfile);
     }
 }
