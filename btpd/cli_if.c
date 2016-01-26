@@ -160,7 +160,8 @@ write_ans(struct iobuf *iob, struct tlib *tl, enum ipc_tval val)
         return;
     case IPC_TVAL_LABEL:
         if (tl->label != NULL)
-            iobuf_print(iob, "i%de%d:%s", IPC_TYPE_STR, (int)strlen(tl->label), tl->label);
+            iobuf_print(iob, "i%de%d:%s", IPC_TYPE_STR, (int)strlen(tl->label),
+                tl->label);
         else
             iobuf_print(iob, "i%dei%de", IPC_TYPE_ERR, IPC_EBADTENT);
        return;
@@ -375,7 +376,7 @@ cmd_stop(struct cli *cli, int argc, const char *args)
     else if (!torrent_active(tl))
         return write_code_buffer(cli, IPC_ETINACTIVE);
     else  {
-        // Stopping a torrent may trigger exit so we need to reply before.
+        /* Stopping a torrent may trigger exit so we need to reply before. */
         int ret = write_code_buffer(cli, IPC_OK);
         active_del(tl->hash);
         torrent_stop(tl->tp, 0);

@@ -3,7 +3,7 @@
 #include <http_client.h>
 #include <iobuf.h>
 
-#define MAX_DOWNLOAD (1 << 18)  // 256kB
+#define MAX_DOWNLOAD (1 << 18)  /* 256kB */
 
 static const char *m_tr_events[] = { "started", "stopped", "completed", "" };
 

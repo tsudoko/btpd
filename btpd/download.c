@@ -180,7 +180,7 @@ dl_on_block(struct peer *p, struct block_request *req,
         nb_drop(req->msg);
         free(req);
         pc->nreqs--;
-        // XXX: Needs to be looked at if we introduce snubbing.
+        /* XXX: Needs to be looked at if we introduce snubbing. */
         clear_bit(pc->down_field, begin / PIECE_BLOCKLEN);
         pc->nbusy--;
         if (pc->ngot == pc->nblocks)

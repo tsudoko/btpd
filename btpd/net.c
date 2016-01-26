@@ -28,7 +28,7 @@ net_ban_peer(struct net *n, struct meta_peer *mp)
 {
     if (mp->flags & PF_BANNED)
         return;
-    mp_hold(mp); // Keep the meta peer alive
+    mp_hold(mp); /* Keep the meta peer alive */
     mp->flags |= PF_BANNED;
     btpd_log(BTPD_L_BAD, "banned peer %p.\n", mp);
 }

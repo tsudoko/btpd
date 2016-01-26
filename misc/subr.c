@@ -160,7 +160,7 @@ int
 mkdirs(char *path, int mode)
 {
     int err = 0;
-    char *spos = strchr(path + 1, '/'); // Skip leading '/'
+    char *spos = strchr(path + 1, '/'); /* Skip leading '/' */
 
     while (spos != NULL) {
         *spos = '\0';

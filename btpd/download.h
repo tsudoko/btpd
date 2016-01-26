@@ -1,7 +1,7 @@
 #ifndef BTPD_DOWNLOAD_H
 #define BTPD_DOWNLOAD_H
 
-// download_subr.c
+/* download_subr.c */
 
 int piece_full(struct piece *pc);
 void piece_free(struct piece *pc);
@@ -21,7 +21,7 @@ void dl_unassign_requests(struct peer *p);
 void dl_unassign_requests_eg(struct peer *p);
 void dl_piece_reorder_eg(struct piece *pc);
 
-// download.c
+/* download.c */
 
 void dl_on_new_peer(struct peer *p);
 void dl_on_lost_peer(struct peer *p);

@@ -415,7 +415,7 @@ dl_on_piece_unfull(struct piece *pc)
     p = BTPDQ_FIRST(&n->peers);
     while (p != NULL && !piece_full(pc)) {
         if (peer_leech_ok(p) && peer_requestable(p, pc->index))
-            dl_piece_assign_requests(pc, p); // Cannot provoke end game here.
+            dl_piece_assign_requests(pc, p); /* Cannot provoke end game here. */
         p = BTPDQ_NEXT(p, p_entry);
     }
 }
@@ -526,7 +526,7 @@ dl_unassign_requests(struct peer *p)
             struct block_request *next = BTPDQ_NEXT(req, p_entry);
 
             uint32_t blki = nb_get_begin(req->msg) / PIECE_BLOCKLEN;
-            // XXX: Needs to be looked at if we introduce snubbing.
+            /* XXX: Needs to be looked at if we introduce snubbing. */
             assert(has_bit(pc->down_field, blki));
             clear_bit(pc->down_field, blki);
             pc->nbusy--;

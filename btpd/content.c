@@ -12,7 +12,7 @@ struct content {
 
     off_t ncontent_bytes;
 
-    size_t bppbf; // bytes per piece block field
+    size_t bppbf; /* bytes per piece block field */
 
     uint8_t *piece_field;
     uint8_t *block_field;
