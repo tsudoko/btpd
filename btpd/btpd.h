@@ -62,38 +62,49 @@
 
 extern long btpd_seconds;
 
+/* init all other init systems, start the evtimer */
 void btpd_init(void);
-
+/* util for logging */
 __attribute__((format (printf, 2, 3)))
 void btpd_log(uint32_t type, const char *fmt, ...);
-
+/* util for sending messages to stderr */
 __attribute__((format (printf, 1, 2), noreturn))
 void btpd_err(const char *fmt, ...);
 
+/* allocate space and leave uninitialized */
 __attribute__((malloc))
 void *btpd_malloc(size_t size);
+/* zero-initialize buffer */
 __attribute__((malloc))
 void *btpd_calloc(size_t nmemb, size_t size);
-
+/* create new event */
 void btpd_ev_new(struct fdev *ev, int fd, uint16_t flags, evloop_cb_t cb,
     void *arg);
+/* remove event */
 void btpd_ev_del(struct fdev *ev);
+/* enable event */
 void btpd_ev_enable(struct fdev *ev, uint16_t flags);
+/* disable event */
 void btpd_ev_disable(struct fdev *ev, uint16_t flags);
+/* add timer */
 void btpd_timer_add(struct timeout *to, struct timespec *ts);
+/* delete timer */
 void btpd_timer_del(struct timeout *to);
 
+/* stop all torrents, set m_shutdown=1, call death_procedure() */
 void btpd_shutdown(void);
+/* returns value of m_shutdown */
 int btpd_is_stopping(void);
 
+/* byte compare two sequences, 0 if equal and of length 20 */
 int btpd_id_eq(const void *k1, const void *k2);
+/* TODO, NOT SURE */
 uint32_t btpd_id_hash(const void *k);
 
+/* peer id list */
 const uint8_t *btpd_get_peer_id(void);
 
-int btpd_id_eq(const void *id1, const void *id2);
-uint32_t btpd_id_hash(const void *id);
-
+/* TODO, THE REST OF THESE FUNCTIONS */
 void td_acquire_lock(void);
 void td_release_lock(void);
 
