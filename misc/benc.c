@@ -12,6 +12,10 @@
 
 #define benc_safeset(out, val) if ((out) != NULL) *(out) = (val)
 
+/* Moves to the end of each element in a message candidate.
+ * If the last character we reach this way is the last character
+ * in the message, it is a valid bencode message.
+ */
 static const char *benc_validate_aux(const char *p, const char *end);
 
 int
@@ -50,7 +54,7 @@ benc_validate_aux(const char *p, const char *end)
         p++;
         if (p > end)
             return NULL;
-        if (*p == '-')
+        if (*p == '-') /* Is the integer negative? */
             p++;
         if (p > end || !isdigit(*p))
             return NULL;
@@ -63,6 +67,7 @@ benc_validate_aux(const char *p, const char *end)
     default:
         if (isdigit(*p)) {
             size_t len = 0;
+            /* Determine how long to expect string to be. */
             while (p <= end && isdigit(*p)) {
                 len *= 10;
                 len += *p - '0';
