@@ -17,8 +17,7 @@ Contents
 2.d               Troubleshooting
 3               Building
 3.a               Requirements
-3.b               Standard build
-3.c               Building from git
+3.b               Building Instructions
 4               Additional notes
 4.a               Upgrade form old versions
 4.b               Pre exit mode
@@ -184,23 +183,18 @@ Contents
 
   You also need a c99 compiler. A non antique GCC should do.
 
-3.b Standard build
+3.b Building Instructions
+  
+  Git clone the repository, then run
 
-  # ./configure
-  # make
-  # make install
+      # aclocal
+      # autoconf
+      # automake -ac
+      # ./configure
+      # make
+      # make install
 
-  See './configure --help' for available build options if the above fails.
-
-3.c Building from git
-
-  Building from git requires a few extra steps:
-  # aclocal
-  # autoconf
-  # automake -ac
-  # ./configure
-  # make
-  # make install
+  Run `./configure --help` for available build options if the above fails.
 
 4. Additional notes
 
