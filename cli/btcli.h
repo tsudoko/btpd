@@ -23,19 +23,31 @@
 extern const char *btpd_dir;
 extern struct ipc *ipc;
 
+/* print message to stderr and exit with 1 */
 __attribute__((noreturn))
 void diemsg(const char *fmt, ...);
+/* open and verify communication with btpd instance */
 void btpd_connect(void);
+/* handle result from ipc error code */
 enum ipc_err handle_ipc_res(enum ipc_err err, const char *cmd,
     const char *target);
+/* get a character representing the state of a torrent */
 char tstate_char(enum ipc_tstate ts);
+/* TODO, NOT SURE */
 int torrent_spec(char *arg, struct ipc_torrent *tp);
 
+/* pretty print upload/download rate into MB/s or kB/s */
 void print_rate(long long rate);
+/* pretty print a bytesize into G or M */
 void print_size(long long size);
+/* pretty print space padded ratio */
 void print_ratio(long long part, long long whole);
+/* pretty print a percentage */
 void print_percent(long long part, long long whole);
 
+/* usage_OPERATION: print usage for the given OPERATION
+ * cmd_OPERATION:   parse arguments for the given OPERATION
+ */
 void usage_add(void);
 void cmd_add(int argc, char **argv);
 void usage_del(void);
